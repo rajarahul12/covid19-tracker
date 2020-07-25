@@ -12,6 +12,7 @@ import {
   CardContent,
 } from "@material-ui/core";
 import { sortData } from "./util";
+import "leaflet/dist/leaflet.css";
 
 function App() {
   //Using hooks for managing the state in the functional component
@@ -19,6 +20,9 @@ function App() {
   const [country, setCountry] = useState("worldwide");
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
+  const [mapCenter, setMapCenter] = useState({ lat: 20, lng: 77 });
+  const [mapZoom, setMapZoom] = useState(2);
+  const [mapCountries, setMapCountries] = useState([]);
 
   // useEffect - hook in react
   useEffect(() => {
@@ -35,6 +39,7 @@ function App() {
 
           const sortedData = sortData(data);
           setTableData(sortedData);
+          setMapCountries(data);
           setCountries(countries);
         });
     };
@@ -63,6 +68,13 @@ function App() {
       .then((data) => {
         setCountry(countryCode);
         setCountryInfo(data);
+        if (typeof data.countryInfo == "undefined") {
+          setMapCenter([20, 77]);
+          setMapZoom(2);
+        } else {
+          setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+          setMapZoom(4);
+        }
       });
   };
 
@@ -103,7 +115,7 @@ function App() {
           />
         </div>
 
-        <Map />
+        <Map countires={mapCountries} center={mapCenter} zoom={mapZoom} />
       </div>
       <Card className="app__right">
         <CardContent>
