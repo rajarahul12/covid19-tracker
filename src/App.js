@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import { sortData, prettyPrintStat, prettyPrintTotal } from "./util";
 import "leaflet/dist/leaflet.css";
+import logo from "./imgs/header.png";
 
 function App() {
   //Using hooks for managing the state in the functional component
@@ -83,7 +84,8 @@ function App() {
     <div className="app">
       <div className="app__left">
         <div className="app__header">
-          <h1>COVID-19 TRACKER</h1>
+          {/* <h1>COVID-19 TRACKER</h1> */}
+          <img className="app__headerimg" src={logo} alt="COVID-19 TRACKER" />
           <FormControl className="app__dropdown">
             <Select
               variant="outlined"
